@@ -95,7 +95,7 @@ public class Board {
 
     public void manualPlaceShips() {
 
-        boolean wrongColumnNumber = true;
+        boolean needsNewSpot = false;
 
         System.out.println("Automatically populate your ships, or Manually place them? Press A for auto, M for manual.");
         char keyPress = scr.next().charAt(0);
@@ -171,72 +171,77 @@ public class Board {
                         setCol = scr.nextInt();
                     }
                 }
-
+                
+//            Check to see if the current ship will fit the given coordinates - in relation to ships length
+//             If not, tell the player to input new values and check the new values
+//            If so, fill the ships coordinates on the lower map
                 if (horizontal) {
-                    while (wrongColumnNumber) {
-                        if ((10 - setCol) < shipSize[i]) {
-                            while ((10 - setCol) < shipSize[i]) {
-                                System.out.println("Ship won't fit, please enter a new column number: ");
-                                setCol = scr.nextInt();
-                            }
-                        }
-                        for (int k = 0; k < shipSize[i]; k++) {
+                    for (int k = 0; k < shipSize[i]; k++) {
+                        if (10 - setCol > shipSize[i]) {
                             if (lower[rowNum][setCol + k] != '.') {
-                                System.out.println("You can't overlap your ships! New Coordinates: ");
-                                setRow = scr.next().charAt(0);
-                                setRow = Character.toUpperCase(setRow);
-                                rowNum = setRow - 'A';
-                                setCol = scr.nextInt();
-                                wrongColumnNumber = true;
-                                break;
+                                System.out.println("Please double check your spaces! Try again.");
+                                needsNewSpot = true;
                             }
-                            wrongColumnNumber = false;
                         }
                     }
+                    if (10 - setCol > shipSize[i]) {
+                        System.out.println("Your ship will fit!");
+                        for (int j = 0; j < shipSize[i]; j++) {
+                            lower[rowNum][setCol + j] = shipsLetter[i];
 
-                } else {
-                    while (wrongColumnNumber) {
-                        if ((10 - rowNum) < shipSize[i]) {
-                            while ((10 - rowNum) < shipSize[i]) {
-                                System.out.println("Ship won't fit, please enter a new row letter: ");
-                                setRow = scr.next().charAt(0);
-                                setRow = Character.toUpperCase(setRow);
-                                rowNum = setRow - 'A';
-                            }
                         }
-                        for (int k = 0; k < shipSize[i]; k++) {
+                    } else {
+                        while (10 - setCol < shipSize[i] && !needsNewSpot) {
+                            System.out.println("Your ship will NOT fit! Remember, a " + ship[i] + " needs at least " + shipSize[i] + " spaces!");
+                            System.out.println("This means the farthest right you can place your " + ship[i] + " is column " + (10 - shipSize[i]) + "!");
+                            System.out.println("Please enter a new number: ");
+                            setCol = scr.nextInt();
+                        }
+                        System.out.println("Your ship will fit!");
+                        for (int j = 0; j < shipSize[i]; j++) {
+                            lower[rowNum][setCol + j] = shipsLetter[i];
+                        }
+                    }
+                    System.out.println(lowerToString());
+                }
+
+                if (vertical) {
+                    for (int k = 0; k < shipSize[i]; k++) {
+                        if (10 - rowNum > shipSize[i]) {
                             if (lower[rowNum + k][setCol] != '.') {
-                                System.out.println("You can't overlap your ships! New Coordinates: ");
-                                setRow = scr.next().charAt(0);
-                                setRow = Character.toUpperCase(setRow);
-                                rowNum = setRow - 'A';
-                                setCol = scr.nextInt();
-                                wrongColumnNumber = true;
-                                break;
+                                System.out.println("Please double check your spaces! Try again.");
+                                needsNewSpot = true;
                             }
-                            wrongColumnNumber = false;
                         }
                     }
+                    if (10 - rowNum > shipSize[i]) {
+                        System.out.println("Your ship will fit!");
+                        for (int j = 0; j < shipSize[i]; j++) {
+                            lower[rowNum + j][setCol] = shipsLetter[i];
+
+                        }
+                    } else {
+                        while (10 - rowNum < shipSize[i] && ! needsNewSpot) {
+                            System.out.println("Your ship will NOT fit! Remember, a " + ship[i] + " needs at least " + shipSize[i] + " spaces!");
+                            System.out.println("This means the farthest down you can place your " + ship[i] + " is row " + (char) ('A' + shipSize[i]) + "!");
+                            System.out.println("Please enter a new row Letter: ");
+                            setRow = scr.next().charAt(0);
+                            rowNum = setRow - 'A';
+                        }
+                        System.out.println("Your ship will fit!");
+                        for (int j = 0; j < shipSize[i]; j++) {
+                            lower[rowNum + j][setCol] = shipsLetter[i];
+                        }
+                    }
+                    System.out.println(lowerToString());
+                } else {
+                    autoPlaceShips();
+                    System.out.println("Automatically... Done.");
                 }
 
-                if (horizontal) {
-                    for (int j = 0; j < shipSize[i]; j++) {
-                        lower[rowNum][setCol + j] = shipsLetter[i];
-                    }
-                } else {
-                    for (int j = 0; j < shipSize[i]; j++) {
-                        lower[rowNum + j][setCol] = shipsLetter[i];
-                    }
-                }
-                System.out.println(lowerToString());
             }
-            
         }
-     else {
-        autoPlaceShips();
-        System.out.println("Automatically... Done.");
     }
-}
 
     public boolean shootAt(char row, int col) {
         int rowNum = row - 'A';
@@ -259,6 +264,7 @@ public class Board {
             lower[rowNum][col] = '#';
             return true;
         }
+
     }
 
     public void recordHit(char row, int col) {
