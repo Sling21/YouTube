@@ -230,77 +230,12 @@ public class Board {
                 }
                 System.out.println(lowerToString());
             }
-            //Check to see if the current ship will fit the given coordinates - in relation to ships length
-            // If not, tell the player to input new values and check the new values
-            //If so, fill the ships coordinates on the lower map
-//                if (horizontal) {
-//                    for (int k = 0; k < shipSize[i]; k++) {
-//                        if (10 - setCol > shipSize[i]) {
-//                            if (lower[rowNum][setCol + k] != '.') {
-//                                System.out.println("Please double check your spaces! Try again.");
-//                                needsNewSpot = true;
-//                            }
-//                        }
-//                    }
-//                    if (10 - setCol > shipSize[i]) {
-//                        System.out.println("Your ship will fit!");
-//                        for (int j = 0; j < shipSize[i]; j++) {
-//                            lower[rowNum][setCol + j] = shipsLetter[i];
-//
-//                        }
-//                    } else {
-//                        while (10 - setCol < shipSize[i] || needsNewSpot) {
-//                            System.out.println("Your ship will NOT fit! Remember, a " + ship[i] + " needs at least " + shipSize[i] + " spaces!");
-//                            System.out.println("This means the farthest right you can place your " + ship[i] + " is column " + (10 - shipSize[i]) + "!");
-//                            System.out.println("Please enter a new number: ");
-//                            setCol = scr.nextInt();
-//                        }
-//                        System.out.println("Your ship will fit!");
-//                        for (int j = 0; j < shipSize[i]; j++) {
-//                            lower[rowNum][setCol + j] = shipsLetter[i];
-//                        }
-//                    }
-//                    System.out.println(lowerToString());
-//                }
-//
-//                if (vertical) {
-//                    for (int k = 0; k < shipSize[i]; k++) {
-//                        if (10 - rowNum > shipSize[i]) {
-//                            if (lower[rowNum + k][setCol] != '.') {
-//                                System.out.println("Please double check your spaces! Try again.");
-//                                needsNewSpot = true;
-//                            }
-//                        }
-//                    }
-//                    if (10 - rowNum > shipSize[i]) {
-//                        System.out.println("Your ship will fit!");
-//                        for (int j = 0; j < shipSize[i]; j++) {
-//                            lower[rowNum + j][setCol] = shipsLetter[i];
-//
-//                        }
-//                    } else {
-//                        while (10 - rowNum < shipSize[i]) {
-//                            System.out.println("Your ship will NOT fit! Remember, a " + ship[i] + " needs at least " + shipSize[i] + " spaces!");
-//                            System.out.println("This means the farthest down you can place your " + ship[i] + " is row " + (char) ('A' + shipSize[i]) + "!");
-//                            System.out.println("Please enter a new row Letter: ");
-//                            setRow = scr.next().charAt(0);
-//                            rowNum = setRow - 'A';
-//                        }
-//                        System.out.println("Your ship will fit!");
-//                        for (int j = 0; j < shipSize[i]; j++) {
-//                            lower[rowNum + j][setCol] = shipsLetter[i];
-//                        }
-//                    }
-//                    System.out.println(lowerToString());
-//                }
+            
         }
-     else
-
-    {//if (keyPress == 'A' || keyPress == 'a') {
+     else {
         autoPlaceShips();
         System.out.println("Automatically... Done.");
     }
-
 }
 
     public boolean shootAt(char row, int col) {
@@ -324,7 +259,6 @@ public class Board {
             lower[rowNum][col] = '#';
             return true;
         }
-
     }
 
     public void recordHit(char row, int col) {
