@@ -113,7 +113,6 @@ public class Board {
             System.out.println("Cruisers need 3 spaces");
             System.out.println("Patrol Boats need 2 spaces");
 
-            //Assign the location of each ship
             for (int i = 0; i < ship.length; i++) {
                 boolean vertical = false;
                 boolean horizontal = false;
@@ -126,7 +125,8 @@ public class Board {
                 boolean conditionNotMet = true;
                 //Check to make sure an entry is either an H or a V
                 if (orientation.equals("H") || orientation.equals("V")) {
-                    conditionNotMet = false;
+                    //This could use a little revamp
+                    //Could probably be combined with the next few blocks of code.
                 } else {
                     while (conditionNotMet) {
                         System.out.println("Incorrect format. Please enter either \"H\" for horizontally, or \"V\" for vertically.");
@@ -171,7 +171,7 @@ public class Board {
                         setCol = scr.nextInt();
                     }
                 }
-                
+
 //            Check to see if the current ship will fit the given coordinates - in relation to ships length
 //             If not, tell the player to input new values and check the new values
 //            If so, fill the ships coordinates on the lower map
@@ -221,7 +221,7 @@ public class Board {
 
                         }
                     } else {
-                        while (10 - rowNum < shipSize[i] && ! needsNewSpot) {
+                        while (10 - rowNum < shipSize[i] && !needsNewSpot) {
                             System.out.println("Your ship will NOT fit! Remember, a " + ship[i] + " needs at least " + shipSize[i] + " spaces!");
                             System.out.println("This means the farthest down you can place your " + ship[i] + " is row " + (char) ('A' + shipSize[i]) + "!");
                             System.out.println("Please enter a new row Letter: ");
@@ -234,14 +234,14 @@ public class Board {
                         }
                     }
                     System.out.println(lowerToString());
-                } else {
-                    autoPlaceShips();
-                    System.out.println("Automatically... Done.");
                 }
-
             }
+        } else {
+            autoPlaceShips();
+            System.out.println("Automatically... Done.");
         }
     }
+
 
     public boolean shootAt(char row, int col) {
         int rowNum = row - 'A';
@@ -274,6 +274,9 @@ public class Board {
 
     public void recordMiss(char row, int col) {
         int rowNum = row - 'A';
+        if (upper[rowNum][col] == '#') {
+            upper[rowNum][col] = '#';
+        }
         upper[rowNum][col] = 'o';
     }
 
